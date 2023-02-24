@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32922.545
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShopListAPI", "ShopListAPI\ShopListAPI.csproj", "{E79E0C13-2D12-46C2-8195-93B4F4C43062}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShopListAPI", "ShopListAPI\ShopListAPI.csproj", "{E79E0C13-2D12-46C2-8195-93B4F4C43062}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entities", "Entities\Entities.csproj", "{34D45E1C-4949-4156-801D-EF962712F9C6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Entities", "Entities\Entities.csproj", "{34D45E1C-4949-4156-801D-EF962712F9C6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "DataAccess\DataAccess.csproj", "{9FBD4AA3-3A48-4436-A79B-8A8FD09C8938}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess", "DataAccess\DataAccess.csproj", "{9FBD4AA3-3A48-4436-A79B-8A8FD09C8938}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Business", "Business\Business.csproj", "{F1D36377-933C-4065-8664-B716FF615785}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{9FBD4AA3-3A48-4436-A79B-8A8FD09C8938}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9FBD4AA3-3A48-4436-A79B-8A8FD09C8938}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9FBD4AA3-3A48-4436-A79B-8A8FD09C8938}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F1D36377-933C-4065-8664-B716FF615785}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1D36377-933C-4065-8664-B716FF615785}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1D36377-933C-4065-8664-B716FF615785}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1D36377-933C-4065-8664-B716FF615785}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

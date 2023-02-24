@@ -9,16 +9,11 @@ using System.Threading.Tasks;
 
 namespace Entities.Concrete
 {
-    public class Category : IEntity
+    public class OperationClaim : IEntity
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-
-        [MaxLength(100)]
-        public string CategoryName { get; set; }
-
-        [MaxLength(500)]
-        public string Description { get; set; }
+        public string Name { get; set; }
     }
 }

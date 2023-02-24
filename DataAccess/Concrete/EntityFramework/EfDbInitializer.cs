@@ -5,16 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using Entities.Concrete;
 using Microsoft.EntityFrameworkCore;
+using static System.Net.WebRequestMethods;
 
 namespace DataAccess.Concrete.EntityFramework
 {
     public static class EFDbInitializer
     {
-        public static void EnsureCreated(ShopListContext _db)
-        {
-            _db.Database.EnsureCreated();
-        }
-
         public static void Migrate(ShopListContext _db)
         {
             _db.Database.Migrate();
@@ -23,9 +19,30 @@ namespace DataAccess.Concrete.EntityFramework
         public static void Initialize(ShopListContext _db)
         {
             AddDefaultCategory(_db);
+            AddDefaultProducts(_db);
+            AddDefaultProductCategory(_db);
+            AddDefaultCountries(_db);
+            AddDefaultOperationClaim(_db);
         }
 
 
+        private static void AddDefaultOperationClaim(ShopListContext _db)
+        {
+            if (_db.OperationClaims.Any())
+                return;
+
+            _db.OperationClaims.Add(new OperationClaim
+            {
+                Name = "Normal Kullanıcı"
+            });
+
+            _db.OperationClaims.Add(new OperationClaim
+            {
+                Name = "Admin"
+            });
+
+            _db.SaveChanges();
+        }
 
         private static void AddDefaultCategory(ShopListContext _db)
         {
@@ -86,6 +103,76 @@ namespace DataAccess.Concrete.EntityFramework
             });
 
             _db.SaveChanges();
+        }
+
+
+        public static void AddDefaultCountries(ShopListContext _db)
+        {
+            if (_db.Countries.Any())
+                return;
+
+            _db.Countries.Add(new Country
+            {
+                CountryName = "Turkey",
+                FlagImgLink = "https://www.worldometers.info/img/flags/tu-flag.gif"
+            });
+
+            _db.Countries.Add(new Country
+            {
+                CountryName = "France",
+                FlagImgLink = "https://www.worldometers.info/img/flags/fr-flag.gif"
+            });
+
+            _db.Countries.Add(new Country
+            {
+                CountryName = "Germany",
+                FlagImgLink = "https://www.worldometers.info/img/flags/gm-flag.gif"
+            });
+
+            _db.Countries.Add(new Country
+            {
+                CountryName = "Italy",
+                FlagImgLink = "https://www.worldometers.info/img/flags/it-flag.gif"
+            });
+
+            _db.Countries.Add(new Country
+            {
+                CountryName = "Spain",
+                FlagImgLink = "https://www.worldometers.info/img/flags/sp-flag.gif"
+            });
+
+            _db.Countries.Add(new Country
+            {
+                CountryName = "Japan",
+                FlagImgLink = "https://www.worldometers.info/img/flags/ja-flag.gif"
+            });
+
+            _db.Countries.Add(new Country
+            {
+                CountryName = "India",
+                FlagImgLink = "https://www.worldometers.info/img/flags/in-flag.gif"
+            });
+
+            _db.Countries.Add(new Country
+            {
+                CountryName = "Brazil",
+                FlagImgLink = "https://www.worldometers.info/img/flags/br-flag.gif"
+            });
+
+            _db.Countries.Add(new Country
+            {
+                CountryName = "Russia",
+                FlagImgLink = "https://www.worldometers.info/img/flags/rs-flag.gif"
+            });
+
+            _db.Countries.Add(new Country
+            {
+                CountryName = "China",
+                FlagImgLink = "https://www.worldometers.info/img/flags/ch-flag.gif"
+            });
+
+            _db.SaveChanges();
+
         }
 
         public static void AddDefaultProducts(ShopListContext _db)
@@ -172,6 +259,7 @@ namespace DataAccess.Concrete.EntityFramework
                 Description = "Metrik 7"
             });
 
+            _db.SaveChanges();
 
         }
 
@@ -340,6 +428,7 @@ namespace DataAccess.Concrete.EntityFramework
                 CategoryId = 10
             });
 
+            _db.SaveChanges();
 
         }
 

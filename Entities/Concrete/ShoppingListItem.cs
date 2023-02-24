@@ -9,16 +9,22 @@ using System.Threading.Tasks;
 
 namespace Entities.Concrete
 {
-    public class Product : IEntity
+    public class ShoppingListItem : IEntity
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        [MaxLength(100)]
-        public string ProductName { get; set; }
-        [MaxLength(500)]
-        public string Description { get; set; }
+        public int ProductId { get; set; }
+        public int ShoppingListId { get; set; }
         public int Quantity { get; set; }
 
+        [MaxLength(255)]
+        public string Note { get; set; }
+
+
+        [ForeignKey("ProductId")]
+        public Product Product { get; set; }
+        [ForeignKey("ShoppingListId")]
+        public ShoppingList ShoppingList { get; set; }
     }
 }

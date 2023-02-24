@@ -9,17 +9,18 @@ using System.Threading.Tasks;
 
 namespace Entities.Concrete
 {
-    public class ProductList : IEntity
+    public class User : IEntity
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        public int ProductId { get; set; }
-        public int ListId { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Email { get; set; }
+        public string CountryCode { get; set; }
+        public byte[] PasswordSalt { get; set; }
+        public byte[] PasswordHash { get; set; }
+        public bool Status { get; set; }
 
-        [ForeignKey("ProductId")]
-        public Product Product { get; set; }
-        [ForeignKey("ListId")]
-        public ShoppingList ShoppingList { get; set; }
     }
 }

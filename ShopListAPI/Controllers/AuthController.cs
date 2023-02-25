@@ -29,6 +29,7 @@ namespace ShopListAPI.Controllers
             {
                 return BadRequest(loggedUser.Message);
             }
+
             var result = _authService.CreateTokens(loggedUser.Data, Response);
 
             //var result = _authService.CreateAccessToken(userToLogin.Data);

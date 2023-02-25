@@ -10,13 +10,16 @@ namespace Business.Constants
     public static class Messages
     {
 
-        public static string AuthorizationDenied = "Yetkiniz yok.";
+        public static string AuthorizationDenied = "Authorization Failed.";
 
-        public static string UserRegistered { get; internal set; }
-        public static User UserNotFound { get; internal set; }
-        public static User PasswordError { get; internal set; }
-        public static string SuccessfulLogin { get; internal set; }
-        public static string UserAlreadyExists { get; internal set; }
-        public static string AccessTokenCreated { get; internal set; }
+        public static string UserRegistered = "User registered successfully.";
+        public static string UserNotFound = "User not found.";
+        public static string PasswordError = "Password is incorrect.";
+        public static string SuccessfulLogin = "Login successful.";
+        public static string UserAlreadyExists = "User already exists.";
+        public static string AccessTokenCreated = "Access token created successfully.";
+        public static string RemainingPassword { get; set; } = "Remaining attempts: ";
+        public static string ExceededAttempt { get; set; } = "You have exceeded the attempt limit";
+        public static string RetryAfterMinute { get; set; } = "The amount of time to wait before retrying to login (Minute): ";     
     }
 }

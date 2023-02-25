@@ -19,6 +19,7 @@ namespace Entities.Concrete
         public string Email { get; set; }
         public int CountryCode { get; set; }
         public int PasswordAttemptCount { get; set; }
+        public DateTime NextLoginAttemptTime { get; set; } = DateTime.Now;
         public DateTime LastLogin { get; set; }
         public DateTime RegistrationDate { get; set; }
 

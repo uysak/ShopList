@@ -7,6 +7,7 @@ using Business.Utilities.Security.JWT;
 using Entities.Concrete;
 using Entities.DTOs;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -24,11 +25,13 @@ namespace Business.Concrete
     {
         private IUserService _userService;
         private ITokenHelper _tokenHelper;
+        private IConfiguration _configuration;
 
-        public AuthManager(IUserService userService, ITokenHelper tokenHelper)
+        public AuthManager(IUserService userService, ITokenHelper tokenHelper, IConfiguration configuration)
         {
             _userService = userService;
             _tokenHelper = tokenHelper;
+            _configuration = configuration;
         }
 
         public IDataResult<User> Register(UserForRegisterDto userForRegisterDto, string password)
@@ -42,7 +45,10 @@ namespace Business.Concrete
                 LastName = userForRegisterDto.LastName,
                 CountryCode = userForRegisterDto.CountryCode,
                 PasswordHash = passwordHash,
-                PasswordSalt = passwordSalt
+                PasswordSalt = passwordSalt,
+                PasswordAttemptCount = 0,
+                RegistrationDate = DateTime.Now,
+                
             };
             _userService.Add(user);
             return new SuccessDataResult<User>(user, Messages.UserRegistered);
@@ -50,18 +56,57 @@ namespace Business.Concrete
 
         public IDataResult<User> Login(UserForLoginDto userForLoginDto)
         {
-            var userToCheck = _userService.GetByMail(userForLoginDto.Email).Data;
-            if (userToCheck == null)
+            var loginedUser = _userService.GetByMail(userForLoginDto.Email).Data;
+            if (loginedUser == null)
             {
                 return new ErrorDataResult<User>(Messages.UserNotFound);
             }
 
-            if (!HashingHelper.VerifyPasswordHash(userForLoginDto.Password, userToCheck.PasswordHash, userToCheck.PasswordSalt))
+            var checkPasswordAttemptLimit = CheckPasswordAttemptLimit(loginedUser);
+
+            if (!checkPasswordAttemptLimit.Success)
+                return new ErrorDataResult<User>(checkPasswordAttemptLimit.Message);
+
+            if (!HashingHelper.VerifyPasswordHash(userForLoginDto.Password, loginedUser.PasswordHash, loginedUser.PasswordSalt))
             {
-                return new ErrorDataResult<User>(Messages.PasswordError);
+                loginedUser.PasswordAttemptCount += 1;
+                _userService.Update(loginedUser);
+                return new ErrorDataResult<User>($"{Messages.PasswordError} {checkPasswordAttemptLimit.Message}");
             }
 
-            return new SuccessDataResult<User>(userToCheck, Messages.SuccessfulLogin);
+            loginedUser.PasswordAttemptCount = 0;
+
+            return new SuccessDataResult<User>(loginedUser, Messages.SuccessfulLogin);
+        }
+
+        public IResult CheckPasswordAttemptLimit(User user)
+        {
+            var passwordAttemptCount = user.PasswordAttemptCount;
+            var maxPasswordAttemptCount = Convert.ToInt16(_configuration["PasswordAttemptOptions:maxAttempt"]);
+
+            var remainingAttemptCount = maxPasswordAttemptCount - passwordAttemptCount;
+
+            if (user.NextLoginAttemptTime > DateTime.Now)
+            {
+                var remainingMinute = user.NextLoginAttemptTime - DateTime.Now;
+                return new ErrorResult(Messages.ExceededAttempt + " " + Messages.RetryAfterMinute + remainingMinute);
+            }
+
+            if (remainingAttemptCount != 0)
+            {
+
+                return new SuccessResult(Messages.RemainingPassword+remainingAttemptCount);
+            }
+            else
+            {
+                var waitMinute =  Convert.ToInt16(_configuration["PasswordAttemptOptions:waitTimeInMinute"]);
+                user.NextLoginAttemptTime = DateTime.Now.AddMinutes(waitMinute);
+                var remainingMinute = user.NextLoginAttemptTime - DateTime.Now;
+                user.PasswordAttemptCount = 0;
+                _userService.Update(user);
+
+                return new ErrorResult(Messages.ExceededAttempt + " " + Messages.RetryAfterMinute + remainingMinute);
+            }
         }
 
         public IResult UserExists(string email)

@@ -118,43 +118,5 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
-        public IDataResult<AccessToken> CreateAccessToken(User user)
-        {
-            var claims = _userService.GetClaims(user).Data;
-            var accessToken = _tokenHelper.CreateToken(user, claims);
-            return new SuccessDataResult<AccessToken>(accessToken);
-        }
-
-        public IDataResult<RefreshToken> CreateRefreshToken()
-        {
-            var refreshToken = _tokenHelper.GenerateRefreshToken();
-            return new SuccessDataResult<RefreshToken>(refreshToken);
-        }
-        public IResult SetRefreshToken(RefreshToken refreshToken, HttpResponse response, User user)
-        {
-            _tokenHelper.SetRefreshToken(refreshToken, response, user);
-            return new SuccessResult();
-        }
-
-        public IDataResult<JObject> CreateTokens(User user, HttpResponse response)
-        {
-            var accessToken = CreateAccessToken(user).Data;
-            var refreshToken = _tokenHelper.GenerateRefreshToken();
-
-            _tokenHelper.SetRefreshToken(refreshToken, response, user); // refresh tokken adding cookie
-
-            JObject tokens = new JObject(
-                new JProperty("AccessToken", accessToken.Token),
-                new JProperty("RefreshToken", refreshToken.Token)
-                );
-
-            _userService.Update(user);
-
-            return new SuccessDataResult<JObject>(tokens);
-
-        }
-
-
-
     }
 }

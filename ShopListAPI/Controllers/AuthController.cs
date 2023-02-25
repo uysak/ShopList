@@ -13,12 +13,14 @@ namespace ShopListAPI.Controllers
     {
         private readonly IAuthService _authService;
         private readonly IUserService _userService;
+        private readonly ITokenService _tokenService;
 
 
-        public AuthController(IAuthService authService, IUserService userService)
+        public AuthController(IAuthService authService, IUserService userService, ITokenService tokenService)
         {
             _authService = authService;
             _userService = userService;
+            _tokenService = tokenService;
         }
 
         [HttpPost("login")]
@@ -30,7 +32,7 @@ namespace ShopListAPI.Controllers
                 return BadRequest(loggedUser.Message);
             }
 
-            var result = _authService.CreateTokens(loggedUser.Data, Response);
+            var result = _tokenService.CreateTokens(loggedUser.Data, Response);
 
             //var result = _authService.CreateAccessToken(userToLogin.Data);
 
@@ -53,7 +55,7 @@ namespace ShopListAPI.Controllers
 
             var registeredUser = _authService.Register(userForRegisterDto, userForRegisterDto.Password);
 
-            var result = _authService.CreateTokens(registeredUser.Data, Response);
+            var result = _tokenService.CreateTokens(registeredUser.Data, Response);
             if (result.Success)
             {
                 return Content(result.Data.ToString(), "application/json");
@@ -84,7 +86,7 @@ namespace ShopListAPI.Controllers
                 return Unauthorized("Token expired.");
             }
 
-            var result = _authService.CreateTokens(user.Data, Response);  // it contains refresh token and access token 
+            var result = _tokenService.CreateTokens(user.Data, Response);  // it contains refresh token and access token 
 
             if (result.Success)
             {

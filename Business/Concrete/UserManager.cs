@@ -6,6 +6,7 @@ using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -44,21 +45,21 @@ namespace Business.Concrete
             return new SuccessDataResult<User>(result);
         }
 
-        //public IDataResult<List<UserDetailDto>> GetUserDetails()
-        //{
-        //    var result = _userDal.GetAll();
-
-        //    return new SuccessDataResult<List<UserDetailDto>>(result);
-        //}
-
         public IResult Delete(int id)
         {
             throw new NotImplementedException();
         }
 
-        public IDataResult<List<UserDetailDto>> GetUserDetails()
+        public IDataResult<List<UserDetailDto>> GetAllUserDetail()
         {
-            throw new NotImplementedException();
+            var result = _userDal.GetAllUserDetail();
+            return new SuccessDataResult<List<UserDetailDto>>(result);
+        }
+
+        public IDataResult<UserDetailDto> GetUserDetailById(int id)
+        {
+            var result = _userDal.GetUserDetail(s => s.Id == id);
+            return new SuccessDataResult<UserDetailDto>(result);
         }
     }
 }

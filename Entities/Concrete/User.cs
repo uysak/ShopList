@@ -26,10 +26,12 @@ namespace Entities.Concrete
         public byte[] PasswordSalt { get; set; }
         public byte[] PasswordHash { get; set; }
 
-
         public string RefreshToken { get; set; } = string.Empty;
         public DateTime TokenExpire { get; set; }
         public DateTime TokenCreated { get; set; }
+
+        [ForeignKey("CountryCode")]
+        public Country Country { get; set; }
 
     }
 }

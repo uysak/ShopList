@@ -20,6 +20,10 @@ namespace Business.Constants
         public static string AccessTokenCreated = "Access token created successfully.";
         public static string RemainingPassword { get; set; } = "Remaining attempts: ";
         public static string ExceededAttempt { get; set; } = "You have exceeded the attempt limit";
-        public static string RetryAfterMinute { get; set; } = "The amount of time to wait before retrying to login (Minute): ";     
+        public static string RetryAfterMinute { get; set; } = "The amount of time to wait before retrying to login (Minute): ";
+        public static string EntityNotFound { get; set; } = "Entity not found.";
+        public static string EntityUpdated { get; set; } = "Entity updated.";
+        public static string EntityDeleted { get; set; } = "Entity deleted.";
+        public static string EntityCreated { get; set; } = "Entity created.";
     }
 }

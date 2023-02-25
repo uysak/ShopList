@@ -1,5 +1,6 @@
 ﻿using Business.Abstract;
 using Business.BusinessAspects.Autofac;
+using Business.Constants;
 using Business.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -20,11 +21,43 @@ namespace Business.Concrete
             _productDal = productDal;
         }
 
-        [SecuredOperation("Adminno")]
+        [SecuredOperation("Admin")]
+        public IResult Create(Product product)
+        {
+            _productDal.Add(product);
+            return new SuccessResult(Messages.EntityCreated);
+        }
+
+        [SecuredOperation("Admin")]
+        public IResult Delete(int id)
+        {
+            _productDal.Delete(_productDal.Get(s => s.Id == id));
+            return new SuccessResult(Messages.EntityDeleted);
+        }
+
+        [SecuredOperation("Admin")]
+        public IDataResult<Product> Get(int id)
+        {
+            var result = _productDal.Get(s => s.Id == id);
+            return new SuccessDataResult<Product>(result);
+        }
+
+        [SecuredOperation("Admin")]
         public IDataResult<List<Product>> GetAll()
         {
             var result = _productDal.GetAll();
             return new SuccessDataResult<List<Product>>(result);
+        }
+        [SecuredOperation("Admin")]
+        public IResult Update(Product product)
+        {
+            var updatedEntity = _productDal.Get(s=>s.Id == product.Id);
+            
+            product.ProductName = product.ProductName == default ? updatedEntity.ProductName : product.ProductName;
+            product.Description = product.Description == default ? updatedEntity.Description : product.Description;
+
+            _productDal.Update(product);
+            return new SuccessResult(Messages.EntityUpdated);
         }
     }
 }

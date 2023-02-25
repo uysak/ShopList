@@ -18,7 +18,6 @@ namespace Entities.Concrete
         public string ProductName { get; set; }
         [MaxLength(500)]
         public string Description { get; set; }
-        public int Quantity { get; set; }
-
+        
     }
 }

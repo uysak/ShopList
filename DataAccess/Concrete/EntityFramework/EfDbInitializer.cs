@@ -53,54 +53,65 @@ namespace DataAccess.Concrete.EntityFramework
 
             _db.Categories.Add(new Category
             {
-                CategoryName = "Mutfak Malzemeleri"
+                CategoryName = "Mutfak Malzemeleri",
+                Description = "Mutfakta kullanılan araç-gereçler."
             });
 
             _db.Categories.Add(new Category
             {
-                CategoryName = "Sebze"
+                CategoryName = "Sebze",
+                Description = "Taze ve doğal sebzeler."
             });
 
             _db.Categories.Add(new Category
             {
-                CategoryName = "Meyve"
+                CategoryName = "Meyve",
+                Description = "Taze ve doğal meyveler."
             });
 
             _db.Categories.Add(new Category
             {
-                CategoryName = "Kahvaltılıklar"
+                CategoryName = "Kahvaltılıklar",
+                Description = "Kahvaltıda tüketilen ürünler."
             });
 
 
             _db.Categories.Add(new Category
             {
-                CategoryName = "Ev Malzemeleri"
+                CategoryName = "Ev Malzemeleri",
+                Description = "Evlerde kullanılan çeşitli malzemeler."
             });
 
             _db.Categories.Add(new Category
             {
-                CategoryName = "Temizlik"
+                CategoryName = "Temizlik",
+                Description = "Ev temizliği için gerekli malzemeler."
             });
 
             _db.Categories.Add(new Category
             {
-                CategoryName = "Elektronik"
+                CategoryName = "Elektronik",
+                Description = "Elektronik ürünler ve aksesuarları."
             });
 
             _db.Categories.Add(new Category
             {
-                CategoryName = "Tamir Malzemeleri"
+                CategoryName = "Tamir Malzemeleri",
+                Description = "Evde yapılacak tamir işleri için gerekli malzemeler."
             });
 
             _db.Categories.Add(new Category
             {
-                CategoryName = "El Aletleri"
+                CategoryName = "El Aletleri",
+                Description = "El ile kullanılan aletler ve araçlar."
             });
 
             _db.Categories.Add(new Category
             {
-                CategoryName = "Hırdavat"
+                CategoryName = "Hırdavat",
+                Description = "Çeşitli tamir malzemeleri."
             });
+
 
             _db.SaveChanges();
         }

@@ -17,7 +17,7 @@ namespace DataAccess.Concrete.EntityFramework
         {
             if (!optionsBuilder.IsConfigured)
             {
-                var connectionString = "Server=localhost;Database=shoplist;UID=root;PWD=123+abc+;Charset=utf8;SslMode=none";
+                var connectionString = "Server=localhost;Database=shoplist2;UID=root;PWD=123+abc+;Charset=utf8;SslMode=none";
                 optionsBuilder.UseMySql(connectionString, MySqlServerVersion.LatestSupportedServerVersion);
             }
 

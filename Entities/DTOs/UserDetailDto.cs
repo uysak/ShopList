@@ -1,4 +1,4 @@
-﻿using Entities.Abstract;
+﻿using Entities.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,12 +7,11 @@ using System.Threading.Tasks;
 
 namespace Entities.DTOs
 {
-    public class UserForRegisterDto : IDto
+    public class UserDetailDto
     {
-        public string Email { get; set; }
-        public string Password { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public int CountryCode { get; set; }
+        public string Email { get; set; }
+        public string Country { get; set; }
     }
 }

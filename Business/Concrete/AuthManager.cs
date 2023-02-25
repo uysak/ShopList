@@ -6,11 +6,17 @@ using Business.Utilities.Security.Hashing;
 using Business.Utilities.Security.JWT;
 using Entities.Concrete;
 using Entities.DTOs;
+using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Json;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace Business.Concrete
 {
@@ -36,8 +42,7 @@ namespace Business.Concrete
                 LastName = userForRegisterDto.LastName,
                 CountryCode = userForRegisterDto.CountryCode,
                 PasswordHash = passwordHash,
-                PasswordSalt = passwordSalt,
-                Status = true
+                PasswordSalt = passwordSalt
             };
             _userService.Add(user);
             return new SuccessDataResult<User>(user, Messages.UserRegistered);
@@ -72,7 +77,39 @@ namespace Business.Concrete
         {
             var claims = _userService.GetClaims(user).Data;
             var accessToken = _tokenHelper.CreateToken(user, claims);
-            return new SuccessDataResult<AccessToken>(accessToken, Messages.AccessTokenCreated);
+            return new SuccessDataResult<AccessToken>(accessToken);
         }
+
+        public IDataResult<RefreshToken> CreateRefreshToken()
+        {
+            var refreshToken = _tokenHelper.GenerateRefreshToken();
+            return new SuccessDataResult<RefreshToken>(refreshToken);
+        }
+        public IResult SetRefreshToken(RefreshToken refreshToken, HttpResponse response, User user)
+        {
+            _tokenHelper.SetRefreshToken(refreshToken, response, user);
+            return new SuccessResult();
+        }
+
+        public IDataResult<JObject> CreateTokens(User user, HttpResponse response)
+        {
+            var accessToken = CreateAccessToken(user).Data;
+            var refreshToken = _tokenHelper.GenerateRefreshToken();
+
+            _tokenHelper.SetRefreshToken(refreshToken, response, user); // refresh tokken adding cookie
+
+            JObject tokens = new JObject(
+                new JProperty("AccessToken", accessToken.Token),
+                new JProperty("RefreshToken", refreshToken.Token)
+                );
+
+            _userService.Update(user);
+
+            return new SuccessDataResult<JObject>(tokens);
+
+        }
+
+
+
     }
 }

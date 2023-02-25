@@ -11,6 +11,8 @@ using Business.Utilities.Security.Encryption;
 using Entities.Concrete;
 using System.Data;
 using Core.Extensions;
+using Microsoft.AspNetCore.Http;
+using System.Security.Cryptography;
 
 namespace Business.Utilities.Security.JWT
 {
@@ -72,8 +74,32 @@ namespace Business.Utilities.Security.JWT
             claims.AddEmail(user.Email);
             claims.AddName($"{user.FirstName} {user.LastName}");
             claims.AddRoles(operationClaims.Select(c => c.Name).ToArray());
-
             return claims;
+        }
+
+        public RefreshToken GenerateRefreshToken()
+        {
+            var refreshToken = new RefreshToken
+            {
+                Token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64)),
+                ExpireDate = DateTime.Now.AddDays(7),
+                CreatedDate = DateTime.Now
+            };
+            return refreshToken;
+        }
+        public void SetRefreshToken(RefreshToken newRefreshToken, HttpResponse response, User user)
+        {
+            var cookieOptions = new CookieOptions
+            {
+                HttpOnly = true,
+                Expires = newRefreshToken.ExpireDate
+            };
+
+            response.Cookies.Append("refreshToken", newRefreshToken.Token, cookieOptions);
+
+            user.RefreshToken = newRefreshToken.Token;
+            user.TokenCreated = newRefreshToken.CreatedDate;
+            user.TokenExpire = newRefreshToken.ExpireDate;
         }
     }
 }

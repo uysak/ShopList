@@ -23,8 +23,44 @@ namespace DataAccess.Concrete.EntityFramework
             AddDefaultProductCategory(_db);
             AddDefaultCountries(_db);
             AddDefaultOperationClaim(_db);
+            AddDefaultStatus(_db);
         }
 
+        private static void AddDefaultStatus(ShopListContext _db)
+        {
+            if (_db.Statuses.Any())
+            {
+                return;
+            }
+
+            _db.Statuses.Add(new Status
+            {
+                StatusName = "Waiting For Approval",
+                StatusDescription = "pending approval from the admin."
+            });
+
+            _db.Statuses.Add(new Status
+            {
+                StatusName = "Approved",
+                StatusDescription = "Approved by the admin."
+            });
+
+            _db.Statuses.Add(new Status
+            {
+                StatusName = "Rejected",
+                StatusDescription = "Rejected by the admin."
+            });
+
+            _db.Statuses.Add(new Status
+            {
+                StatusName = "Active",
+            });
+
+            _db.Statuses.Add(new Status
+            {
+                StatusName = "Deactive",
+            });
+        }
 
         private static void AddDefaultOperationClaim(ShopListContext _db)
         {

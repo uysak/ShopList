@@ -1,7 +1,9 @@
-﻿using Business.Abstract;
+﻿using AutoMapper;
+using Business.Abstract;
 using Business.Utilities.Results;
 using Castle.DynamicProxy.Generators.Emitters.SimpleAST;
 using Entities.Concrete;
+using Entities.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -12,10 +14,12 @@ namespace ShopListAPI.Controllers
     public class CategoryController : ControllerBase
     {
         private readonly ICategoryService _categoryService;
+        private readonly IMapper _mapper;
 
-        public CategoryController(ICategoryService categoryService)
+        public CategoryController(ICategoryService categoryService, IMapper mapper)
         {
             _categoryService = categoryService;
+            _mapper = mapper;
         }
         [Authorize]
         [HttpGet]
@@ -27,8 +31,10 @@ namespace ShopListAPI.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public IActionResult CreateCategory(Category category)
+        public IActionResult CreateCategory([FromBody]CategoryDto categoryDto)
         {
+            var category = _mapper.Map<Category>(categoryDto);
+
             var result = _categoryService.Create(category);
             return result.Success == true ? Ok(result) : BadRequest(result);
         }
@@ -42,15 +48,18 @@ namespace ShopListAPI.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpPut]
-        public IActionResult UpdateCategory(Category category)
+        [HttpPut("{id}")]
+        public IActionResult UpdateCategory([FromRoute]int id,[FromBody]CategoryDto categoryDto)
         {
+            var category = _mapper.Map<Category>(categoryDto);
+            category.Id = id;
+
             var result = _categoryService.Update(category);
             return result.Success == true ? Ok(result) : BadRequest(result);
         }
         [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
-        public IActionResult DeleteCategory(int id)
+        public IActionResult DeleteCategory([FromRoute]int id)
         {
             var result = _categoryService.Delete(id);
             return result.Success == true ? Ok(result) : BadRequest(result);

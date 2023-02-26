@@ -1,5 +1,7 @@
-﻿using Business.Abstract;
+﻿using AutoMapper;
+using Business.Abstract;
 using Business.Constants;
+using Business.Utilities.Security.Hashing;
 using Entities.Concrete;
 using Entities.DTOs;
 using Microsoft.AspNetCore.Mvc;
@@ -14,19 +16,21 @@ namespace ShopListAPI.Controllers
         private readonly IAuthService _authService;
         private readonly IUserService _userService;
         private readonly ITokenService _tokenService;
+        private readonly IMapper _mapper;
 
-
-        public AuthController(IAuthService authService, IUserService userService, ITokenService tokenService)
+        public AuthController(IAuthService authService, IUserService userService, ITokenService tokenService,IMapper mapper)
         {
             _authService = authService;
             _userService = userService;
             _tokenService = tokenService;
+            _mapper = mapper;
         }
 
         [HttpPost("login")]
-        public ActionResult Login(UserForLoginDto userForLoginDto)
+        public ActionResult Login([FromBody] UserForLoginDto userForLoginDto)
         {
             var loggedUser = _authService.Login(userForLoginDto);
+
             if (!loggedUser.Success)
             {
                 return BadRequest(loggedUser.Message);
@@ -45,15 +49,22 @@ namespace ShopListAPI.Controllers
         }
 
         [HttpPost("register")]
-        public ActionResult Register(UserForRegisterDto userForRegisterDto)
+        public ActionResult Register([FromBody] UserForRegisterDto userForRegisterDto)
         {
+            var user = _mapper.Map<User>(userForRegisterDto);
+
+            byte[] passwordHash, passwordSalt;
+            HashingHelper.CreatePasswordHash(userForRegisterDto.Password, out passwordHash, out passwordSalt);
+            user.PasswordHash = passwordHash;
+            user.PasswordSalt = passwordSalt;
+
             var userExists = _authService.UserExists(userForRegisterDto.Email);
             if (!userExists.Success)
             {
                 return BadRequest(userExists.Message);
             }
 
-            var registeredUser = _authService.Register(userForRegisterDto, userForRegisterDto.Password);
+            var registeredUser = _authService.Register(user, userForRegisterDto.Password);
 
             var result = _tokenService.CreateTokens(registeredUser.Data, Response);
             if (result.Success)

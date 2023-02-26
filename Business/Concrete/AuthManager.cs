@@ -34,22 +34,9 @@ namespace Business.Concrete
             _configuration = configuration;
         }
 
-        public IDataResult<User> Register(UserForRegisterDto userForRegisterDto, string password)
+        public IDataResult<User> Register(User user, string password)
         {
-            byte[] passwordHash, passwordSalt;
-            HashingHelper.CreatePasswordHash(password, out passwordHash, out passwordSalt);
-            var user = new User
-            {
-                Email = userForRegisterDto.Email,
-                FirstName = userForRegisterDto.FirstName,
-                LastName = userForRegisterDto.LastName,
-                CountryCode = userForRegisterDto.CountryCode,
-                PasswordHash = passwordHash,
-                PasswordSalt = passwordSalt,
-                PasswordAttemptCount = 0,
-                RegistrationDate = DateTime.Now,
-                
-            };
+            
             _userService.Add(user);
             return new SuccessDataResult<User>(user, Messages.UserRegistered);
         }

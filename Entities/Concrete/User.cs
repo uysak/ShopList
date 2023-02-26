@@ -17,8 +17,10 @@ namespace Entities.Concrete
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
-        public int CountryCode { get; set; }
+        public int? CountryCode { get; set; }
+        public int? StatusId { get; set; }
         public int PasswordAttemptCount { get; set; }
+
         public DateTime NextLoginAttemptTime { get; set; } = DateTime.Now;
         public DateTime LastLogin { get; set; }
         public DateTime RegistrationDate { get; set; }
@@ -30,8 +32,12 @@ namespace Entities.Concrete
         public DateTime TokenExpire { get; set; }
         public DateTime TokenCreated { get; set; }
 
+
         [ForeignKey("CountryCode")]
-        public Country Country { get; set; }
+        public Country? Country { get; set; }
+
+        [ForeignKey("StatusId")]
+        public Status? Status { get; set; }
 
     }
 }

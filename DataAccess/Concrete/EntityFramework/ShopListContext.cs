@@ -17,7 +17,7 @@ namespace DataAccess.Concrete.EntityFramework
         {
             if (!optionsBuilder.IsConfigured)
             {
-                var connectionString = "Server=localhost;Database=shoplist2;UID=root;PWD=123+abc+;Charset=utf8;SslMode=none";
+                var connectionString = "Server=localhost;Database=shoplist3;UID=root;PWD=123+abc+;Charset=utf8;SslMode=none";
                 optionsBuilder.UseMySql(connectionString, MySqlServerVersion.LatestSupportedServerVersion);
             }
 
@@ -35,6 +35,7 @@ namespace DataAccess.Concrete.EntityFramework
         public DbSet<User> Users { get; set; }
         public DbSet<ShoppingListItem> ShoppingListItems { get; set; }
         public DbSet<Country> Countries { get; set; }
+        public DbSet<Status> Statuses { get; set; }
 
     }
 }

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ShopListAPI.Controllers
 {
+    [Route("api/[controller]")]
     public class CountryController : ControllerBase
     {
         private readonly ICountryService _countryService;
@@ -20,7 +21,7 @@ namespace ShopListAPI.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetCountryById(int id)
+        public IActionResult GetCountryById([FromRoute]int id)
         {
             var result = _countryService.GetById(id);
             return result.Success == true ? Ok(result) : BadRequest(result);

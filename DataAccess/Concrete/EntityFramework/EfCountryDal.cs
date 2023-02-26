@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Concrete.EntityFramework
 {
-    internal class EfCountryDal : EfEntityRepositoryBase<Country,ShopListContext>, ICountryDal
+    public class EfCountryDal : EfEntityRepositoryBase<Country,ShopListContext>, ICountryDal
     {
     }
 }

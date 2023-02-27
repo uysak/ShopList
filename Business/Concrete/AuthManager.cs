@@ -1,9 +1,11 @@
 ﻿using Business.Abstract;
+using Business.Aspects.Autofac.Validation;
 using Business.Constants;
 using Business.Utilities.Results;
 using Business.Utilities.Security;
 using Business.Utilities.Security.Hashing;
 using Business.Utilities.Security.JWT;
+using Business.ValidationRule.FluentValidation;
 using Entities.Concrete;
 using Entities.DTOs;
 using Microsoft.AspNetCore.Http;
@@ -34,13 +36,14 @@ namespace Business.Concrete
             _configuration = configuration;
         }
 
+        [ValidationAspect(typeof(UserForRegisterValidator))]
         public IDataResult<User> Register(User user, string password)
         {
-            
             _userService.Add(user);
             return new SuccessDataResult<User>(user, Messages.UserRegistered);
         }
 
+        [ValidationAspect(typeof(UserForLoginValidator))]
         public IDataResult<User> Login(UserForLoginDto userForLoginDto)
         {
             var loginedUser = _userService.GetByMail(userForLoginDto.Email).Data;

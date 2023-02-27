@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Business.Utilities.Security.JWT;
 using Business.Utilities.Security.Encryption;
+using FluentValidation.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +21,9 @@ builder.Host.ConfigureContainer<ContainerBuilder>(builder => builder.RegisterMod
 //Mapper Configuration
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+////FluentValidation
+//builder.Services.AddFluentValidationAutoValidation();
 
 // Add services to the container.
 

@@ -29,6 +29,8 @@ namespace Business.DependencyResolvers.Autofac
             builder.RegisterType<CountryManager>().As<ICountryService>().SingleInstance();
             builder.RegisterType<EfCountryDal>().As<ICountryDal>().SingleInstance();
 
+            builder.RegisterType<StatusManager>().As<IStatusService>().SingleInstance();
+            builder.RegisterType<EfStatusDal>().As<IStatusDal>().SingleInstance();
 
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();
 

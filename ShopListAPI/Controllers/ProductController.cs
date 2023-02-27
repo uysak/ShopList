@@ -21,7 +21,7 @@ namespace ShopListAPI.Controllers
             _mapper = mapper;
         }
 
-        [Authorize]
+        [Authorize("Admin,User")]
         [HttpGet]
         public IActionResult GetAll()
         {
@@ -39,8 +39,8 @@ namespace ShopListAPI.Controllers
             return result.Success == true ? Ok(result) : BadRequest(result);
         }
 
-        [Authorize]
-        [HttpPost("{id}")]
+        [Authorize(Roles ="Admin,User")]
+        [HttpGet("{id}")]
         public IActionResult GetProduct([FromRoute]int id)
         {
             var result = _productService.Get(id);
@@ -48,10 +48,11 @@ namespace ShopListAPI.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpPut]
-        public IActionResult UpdateProduct([FromBody] ProductDto productDto)
+        [HttpPut("{id}")]
+        public IActionResult UpdateProduct([FromRoute] int id, [FromBody] ProductDto productDto)
         {
             var product = _mapper.Map<Product>(productDto);
+            product.Id = id;
 
             var result = _productService.Update(product);
             return result.Success == true ? Ok(result) : BadRequest(result);

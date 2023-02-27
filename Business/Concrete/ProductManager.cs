@@ -1,7 +1,9 @@
 ﻿using Business.Abstract;
+using Business.Aspects.Autofac.Validation;
 using Business.BusinessAspects.Autofac;
 using Business.Constants;
 using Business.Utilities.Results;
+using Business.ValidationRule.FluentValidation;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Microsoft.AspNetCore.Authorization;
@@ -22,6 +24,7 @@ namespace Business.Concrete
         }
 
         [SecuredOperation("Admin")]
+        [ValidationAspect(typeof(ProductValidator))]
         public IResult Create(Product product)
         {
             _productDal.Add(product);
@@ -35,14 +38,14 @@ namespace Business.Concrete
             return new SuccessResult(Messages.EntityDeleted);
         }
 
-        [SecuredOperation("Admin")]
+        [SecuredOperation("Admin,User")]
         public IDataResult<Product> Get(int id)
         {
             var result = _productDal.Get(s => s.Id == id);
             return new SuccessDataResult<Product>(result);
         }
 
-        [SecuredOperation("Admin")]
+        [SecuredOperation("Admin,User")]
         public IDataResult<List<Product>> GetAll()
         {
             var result = _productDal.GetAll();

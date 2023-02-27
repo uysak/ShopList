@@ -60,6 +60,8 @@ namespace DataAccess.Concrete.EntityFramework
             {
                 StatusName = "Deactive",
             });
+
+            _db.SaveChanges();
         }
 
         private static void AddDefaultOperationClaim(ShopListContext _db)

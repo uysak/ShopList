@@ -1,12 +1,11 @@
 ﻿using AutoMapper;
 using Business.Abstract;
-using Business.Utilities.Results;
-using Castle.DynamicProxy.Generators.Emitters.SimpleAST;
 using Entities.Concrete;
 using Entities.DTOs;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Business.Aspects.Autofac.Validation;
+using Business.ValidationRule.FluentValidation;
 
 namespace ShopListAPI.Controllers
 {
@@ -21,7 +20,7 @@ namespace ShopListAPI.Controllers
             _categoryService = categoryService;
             _mapper = mapper;
         }
-        [Authorize]
+        [Authorize(Roles = "Admin,User")]
         [HttpGet]
         public IActionResult GetAll()
         {
@@ -29,7 +28,10 @@ namespace ShopListAPI.Controllers
             return result.Success == true ? Ok(result) : BadRequest(result);
         }
 
+
         [Authorize(Roles = "Admin")]
+        [ValidationAspect(typeof(CategoryValidator))]
+
         [HttpPost]
         public IActionResult CreateCategory([FromBody]CategoryDto categoryDto)
         {
@@ -39,7 +41,7 @@ namespace ShopListAPI.Controllers
             return result.Success == true ? Ok(result) : BadRequest(result);
         }
 
-        [Authorize]
+        [Authorize("Admin,User")]
         [HttpGet("{id}")]
         public IActionResult GetCategory(int id)
         {

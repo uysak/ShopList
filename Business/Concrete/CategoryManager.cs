@@ -1,6 +1,8 @@
 ﻿using Business.Abstract;
+using Business.Aspects.Autofac.Validation;
 using Business.Constants;
 using Business.Utilities.Results;
+using Business.ValidationRule.FluentValidation;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using System;
@@ -25,6 +27,7 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Category>>(result);
         }
 
+        [ValidationAspect(typeof(CategoryValidator))]
         public IResult Create(Category category)
         {
             _categoryDal.Add(category);

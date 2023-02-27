@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using Business.Abstract;
+using Business.Aspects.Autofac.Validation;
 using Business.Constants;
 using Business.Utilities.Security.Hashing;
+using Business.ValidationRule.FluentValidation;
 using Entities.Concrete;
 using Entities.DTOs;
 using Microsoft.AspNetCore.Mvc;

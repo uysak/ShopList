@@ -1,8 +1,12 @@
 ﻿using Business.Abstract;
+using Business.Aspects.Autofac.Validation;
+using Business.BusinessAspects.Autofac;
 using Business.Constants;
 using Business.Utilities.Results;
+using Business.ValidationRule.FluentValidation;
 using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +23,7 @@ namespace Business.Concrete
             _countryDal = countryDal;
         }
 
+        [ValidationAspect(typeof(CountryValidator))]
         public IResult Create(Country country)
         {
             _countryDal.Add(country);
@@ -37,6 +42,7 @@ namespace Business.Concrete
             return new SuccessDataResult<Country>(result);
         }
 
+        [SecuredOperation("Admin")]
         public IDataResult<List<Country>> GetAll()
         {
             var result = _countryDal.GetAll();
@@ -49,6 +55,8 @@ namespace Business.Concrete
 
             country.CountryName = country.CountryName == default ? updatedEntity.CountryName : country.CountryName;
             country.FlagImgLink = country.FlagImgLink == default ? updatedEntity.FlagImgLink : country.FlagImgLink;
+
+            new ValidationAspect(typeof(CountryValidator));
 
             _countryDal.Update(country);
             return new SuccessResult(Messages.EntityUpdated);

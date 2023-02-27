@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Entities.DTOs
 {
-    public class CategoryDto
+    public class CountryDto
     {
-        public string? CategoryName { get; set; }
-        public string? Description { get; set; }
+        public string CountryName { get; set; }
+        public string FlagImgLink { get; set; }
     }
 }

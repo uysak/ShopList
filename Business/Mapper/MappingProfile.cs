@@ -20,9 +20,15 @@ namespace Business.Mapper
             CreateMap<Product, ProductDto>();
             CreateMap<ProductDto, Product>();
 
+            CreateMap<Status, StatusDto>();
+            CreateMap<StatusDto, Status>();
+
             CreateMap<UserForRegisterDto, User>()
                        .ForMember(dest => dest.PasswordAttemptCount, opt => opt.MapFrom(src => 0))
                        .ForMember(dest => dest.RegistrationDate, opt => opt.MapFrom(src => DateTime.Now));
+
+            CreateMap<UserDetailDto, User>();
+            CreateMap<User, UserDetailDto>();
 
 
         }

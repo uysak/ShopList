@@ -1,5 +1,8 @@
-﻿using Business.Abstract;
+﻿using AutoMapper;
+using Business.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ShopListAPI.Controllers
@@ -8,11 +11,14 @@ namespace ShopListAPI.Controllers
     public class CountryController : ControllerBase
     {
         private readonly ICountryService _countryService;
-        public CountryController(ICountryService countryService)
+        private readonly IMapper _mapper;
+        public CountryController(ICountryService countryService,IMapper mapper)
         {
             _countryService = countryService;
+            _mapper = mapper;
         }
 
+        [Authorize(Roles = "Admin,User")]
         [HttpGet]
         public IActionResult GetAllCountries()
         {
@@ -20,6 +26,7 @@ namespace ShopListAPI.Controllers
             return result.Success == true ? Ok(result) : BadRequest(result);
         }
 
+        [Authorize(Roles ="Admin,User")]
         [HttpGet("{id}")]
         public IActionResult GetCountryById([FromRoute]int id)
         {
@@ -27,6 +34,7 @@ namespace ShopListAPI.Controllers
             return result.Success == true ? Ok(result) : BadRequest(result);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult CreateCountry([FromBody] Country country)
         {
@@ -34,13 +42,18 @@ namespace ShopListAPI.Controllers
             return result.Success == true ? Ok(result) : BadRequest(result);
         }
 
-        [HttpPut]
-        public IActionResult UpdateCountry([FromBody] Country country)
+        [Authorize(Roles = "Admin")]
+        [HttpPut("{id}")]
+        public IActionResult UpdateCountry([FromRoute]int id, [FromBody] CountryDto countryDto)
         {
+            var country = _mapper.Map<Country>(countryDto);
+            country.Id = id;
+
             var result = _countryService.Update(country);
             return result.Success == true ? Ok(result) : BadRequest(result);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public IActionResult DeleteCountry([FromRoute]int id)
         {

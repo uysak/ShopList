@@ -30,6 +30,13 @@ namespace Business.Mapper
             CreateMap<UserDetailDto, User>();
             CreateMap<User, UserDetailDto>();
 
+            CreateMap<ShoppingListItemForUpdateDTO, ShoppingListItem>();
+
+            CreateMap<ShoppingListItemForAddDto, ShoppingListItem>()
+            .ForMember(dest => dest.ProductId, opt => opt.MapFrom(src => src.ProductId))
+            .ForMember(dest => dest.Quantity, opt => opt.MapFrom(src => src.Quantity))
+            .ForMember(dest => dest.Note, opt => opt.MapFrom(src => src.Note))
+            .ForMember(dest => dest.ShoppingListId, opt => opt.MapFrom(src => src.ShoppingListId));
 
         }
     }

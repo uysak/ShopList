@@ -10,6 +10,7 @@ using Microsoft.IdentityModel.Tokens;
 using Business.Utilities.Security.JWT;
 using Business.Utilities.Security.Encryption;
 using FluentValidation.AspNetCore;
+using Business.Abstract;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +18,13 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
 builder.Host.ConfigureContainer<ContainerBuilder>(builder => builder.RegisterModule(new AutofacBusinessModule()));
+
+//builder.Host.ConfigureContainer<ContainerBuilder>(builder =>
+//{
+//    builder.RegisterType<IShoppingListItemService>().InstancePerLifetimeScope()
+//        .PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies);
+//});
+
 
 //Mapper Configuration
 

@@ -32,6 +32,22 @@ namespace Business.DependencyResolvers.Autofac
             builder.RegisterType<StatusManager>().As<IStatusService>().SingleInstance();
             builder.RegisterType<EfStatusDal>().As<IStatusDal>().SingleInstance();
 
+            builder.RegisterType<EfProductCategoryDal>().As<IProductCategoryDal>().SingleInstance();
+
+            builder.RegisterType<ShoppingListManager>().As<IShoppingListService>().SingleInstance();
+            builder.RegisterType<EfShoppingListDal>().As<IShoppingListDal>().SingleInstance();
+
+
+            builder.RegisterType<ShoppingListItemManager>().As<IShoppingListItemService>().SingleInstance();
+            builder.RegisterType<EfShoppingListItemDal>().As<IShoppingListItemDal>().SingleInstance();
+
+
+            
+
+
+
+
+
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();
 
             builder.RegisterAssemblyTypes(assembly).AsImplementedInterfaces()

@@ -45,7 +45,6 @@ namespace Business.Concrete
             return new SuccessDataResult<Product>(result);
         }
 
-        [SecuredOperation("Admin,User")]
         public IDataResult<List<Product>> GetAll()
         {
             var result = _productDal.GetAll();

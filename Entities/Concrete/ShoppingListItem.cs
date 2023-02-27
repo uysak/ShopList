@@ -21,10 +21,11 @@ namespace Entities.Concrete
         [MaxLength(255)]
         public string Note { get; set; }
 
+        public List<ProductCategory>? ProductCategories { get; set; }
 
         [ForeignKey("ProductId")]
-        public Product Product { get; set; }
+        public Product? Product { get; set; }
         [ForeignKey("ShoppingListId")]
-        public ShoppingList ShoppingList { get; set; }
+        public ShoppingList? ShoppingList { get; set; }
     }
 }

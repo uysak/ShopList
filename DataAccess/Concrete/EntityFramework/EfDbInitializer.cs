@@ -11,6 +11,9 @@ namespace DataAccess.Concrete.EntityFramework
 {
     public static class EFDbInitializer
     {
+
+      
+
         public static void Migrate(ShopListContext _db)
         {
             _db.Database.Migrate();
@@ -25,6 +28,9 @@ namespace DataAccess.Concrete.EntityFramework
             AddDefaultOperationClaim(_db);
             AddDefaultStatus(_db);
         }
+
+
+
 
         private static void AddDefaultStatus(ShopListContext _db)
         {

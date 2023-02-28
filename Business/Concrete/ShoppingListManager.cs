@@ -94,7 +94,7 @@ namespace Business.Concrete
             var result = _shoppingListDal.Get(s => s.Id == id);
             if (result == null)
             {
-                return new ErrorDataResult();
+                return new ErrorResult();
             }
             return new SuccessResult();
         }

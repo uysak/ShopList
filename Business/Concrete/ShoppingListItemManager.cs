@@ -43,7 +43,7 @@ namespace Business.Concrete
                 shoppingListItem = _shoppingListItemDal.Get(s=>s.ProductId == shoppingListItem.ProductId);
                 shoppingListItem.Quantity += shoppingListItemDto.Quantity;
                 _shoppingListItemDal.Update(shoppingListItem);
-                return new ErrorDataResult(Messages.ListItemAlreadyExist);
+                return new ErrorResult(Messages.ListItemAlreadyExist);
             }
 
             var itemCategories = _productCategoryDal.GetAll(s => s.ProductId == shoppingListItemDto.ProductId);
@@ -97,7 +97,7 @@ namespace Business.Concrete
             }
             else
             {
-                return new ErrorDataResult();
+                return new ErrorResult();
             }
 
 

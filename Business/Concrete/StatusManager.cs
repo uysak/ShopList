@@ -25,6 +25,7 @@ namespace Business.Concrete
 
         [ValidationAspect(typeof(StatusValidator))]
         [SecuredOperation("Admin")]
+
         public IResult Create(Status status)
         {
             _statusDal.Add(status);

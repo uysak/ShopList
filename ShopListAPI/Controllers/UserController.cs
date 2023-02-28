@@ -56,7 +56,7 @@ namespace ShopListAPI.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpPut]
+        [HttpPut("changestatus")]
         public IActionResult ChangeStatus([FromRoute] int userId, [FromRoute] int statusId)
         {
             var result = _userService.ChangeStatus(userId, statusId);

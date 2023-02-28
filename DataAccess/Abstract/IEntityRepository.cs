@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Abstract
 {
-    public interface IEntityRepository<T> where T : class, IEntity, new()
+    public interface IEntityRepository <T> where T : class, IEntity, new()
     {
         public void Add(T entity);
         public void Update(T entity);

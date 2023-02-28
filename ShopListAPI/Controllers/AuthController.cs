@@ -4,6 +4,7 @@ using Business.Aspects.Autofac.Validation;
 using Business.Constants;
 using Business.Utilities.Security.Hashing;
 using Business.ValidationRule.FluentValidation;
+using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
 using Microsoft.AspNetCore.Mvc;
@@ -18,14 +19,16 @@ namespace ShopListAPI.Controllers
         private readonly IAuthService _authService;
         private readonly IUserService _userService;
         private readonly ITokenService _tokenService;
+        private readonly IUserOperationClaimDal _userOperationClaimDal;
         private readonly IMapper _mapper;
 
-        public AuthController(IAuthService authService, IUserService userService, ITokenService tokenService,IMapper mapper)
+        public AuthController(IAuthService authService, IUserService userService, ITokenService tokenService,IMapper mapper,IUserOperationClaimDal userOperationClaimDal)
         {
             _authService = authService;
             _userService = userService;
             _tokenService = tokenService;
             _mapper = mapper;
+            _userOperationClaimDal = userOperationClaimDal;
         }
 
         [HttpPost("login")]
@@ -69,6 +72,13 @@ namespace ShopListAPI.Controllers
             var registeredUser = _authService.Register(user, userForRegisterDto.Password);
 
             var result = _tokenService.CreateTokens(registeredUser.Data, Response);
+            _userOperationClaimDal.Add(new UserOperationClaim
+            {
+                ClaimId = 2,
+                UserId = registeredUser.Data.Id
+            });
+            
+
             if (result.Success)
             {
                 return Content(result.Data.ToString(), "application/json");

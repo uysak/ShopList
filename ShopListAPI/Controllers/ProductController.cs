@@ -30,7 +30,7 @@ namespace ShopListAPI.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpPost]
+        [HttpPost("{categoryId}")]
         public IActionResult CreateProduct([FromRoute]int categoryId,[FromBody]ProductDto productDto)
         {
             var product = _mapper.Map<Product>(productDto);

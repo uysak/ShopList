@@ -8,8 +8,7 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Concrete.EntityFramework
 {
-    public class EfProductDal : EfEntityRepositoryBase<Product, ShopListContext>, IProductDal
+    public class EfUserOperationClaimDal : EfEntityRepositoryBase<UserOperationClaim, ShopListContext>, IUserOperationClaimDal
     {
-        //getbyid
     }
 }

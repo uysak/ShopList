@@ -18,9 +18,9 @@ namespace Business.ValidationRule.FluentValidation
                 .Matches("^[a-zA-Z0-9]*$").WithMessage("Product name can only contain letters and numbers.");
 
             RuleFor(x => x.Description)
-                .NotEmpty().WithMessage("Description cannot be empty.")
                 .Matches("^[a-zA-Z0-9]*$").WithMessage("Description can only contain letters and numbers.");
         }
+
     }
 
 }

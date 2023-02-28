@@ -47,7 +47,7 @@ namespace Business.Concrete
             return new SuccessDataResult<Country>(result);
         }
 
-        [SecuredOperation("Admin")]
+        [SecuredOperation("Admin,User")]
         public IDataResult<List<Country>> GetAll()
         {
             var result = _cacheService.GetOrAdd("AllCountries", () => { return _countryDal.GetAll(); });

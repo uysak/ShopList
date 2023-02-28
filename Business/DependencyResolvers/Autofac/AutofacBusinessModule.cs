@@ -45,6 +45,9 @@ namespace Business.DependencyResolvers.Autofac
 
             builder.RegisterType<EfShoppingListItemCategoryMapDal>().As<IShoppingListItemCategoryMapDal>().SingleInstance();
 
+            builder.RegisterType<EfUserOperationClaimDal>().As<IUserOperationClaimDal>().SingleInstance();
+
+
             builder.RegisterType<RedisCacheService>().As<ICacheService>().SingleInstance();
             
 

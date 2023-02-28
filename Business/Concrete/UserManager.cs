@@ -63,7 +63,8 @@ namespace Business.Concrete
 
         public IResult Delete(int id)
         {
-            throw new NotImplementedException();
+            _userDal.Delete(_userDal.Get(s => s.Id == id));
+            return new SuccessResult();
         }
 
         public IDataResult<List<UserDetailDto>> GetAllUserDetail()
@@ -85,7 +86,7 @@ namespace Business.Concrete
 
             if (!updatedUser.Success || !status.Success)
             {
-                return new ErrorDataResult();
+                return new ErrorResult();
             }
 
             updatedUser.Data.StatusId = statusId;

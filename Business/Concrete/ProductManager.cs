@@ -32,6 +32,12 @@ namespace Business.Concrete
         public IResult Create(Product product, int categoryId)
         {
             
+            var productForCheck = _productDal.Get(s=> s.ProductName == product.ProductName);
+            if(productForCheck != null)
+            {
+                return new ErrorResult();
+            }
+
             _productDal.Add(product);
             _productCategoryDal.Add( // TODO: Vaktin kalırsa business katmanını da oluştur
                 new ProductCategory

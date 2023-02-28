@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace Business.Utilities.Results
 {
-    public class ErrorDataResult : Result
+    public class ErrorResult : Result
     {
-        public ErrorDataResult(string message) : base(false, message)
+        public ErrorResult(string message) : base(false, message)
         {
 
         }
 
-        public ErrorDataResult() : base(false)
+        public ErrorResult() : base(false)
         {
 
         }

@@ -12,7 +12,14 @@ namespace DataAccess.Concrete.EntityFramework
 {
     public class ShopListContext : DbContext
     {
+        public ShopListContext()
+        {
 
+        }
+        public ShopListContext(DbContextOptions<ShopListContext> options) : base(options)
+        {
+
+        }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -24,8 +31,6 @@ namespace DataAccess.Concrete.EntityFramework
             optionsBuilder.EnableSensitiveDataLogging();
         }
 
-
-
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<ProductCategory> ProductCategories { get; set; }
@@ -36,7 +41,6 @@ namespace DataAccess.Concrete.EntityFramework
         public DbSet<ShoppingListItem> ShoppingListItems { get; set; }
         public DbSet<Country> Countries { get; set; }
         public DbSet<Status> Statuses { get; set; }
-
         public DbSet<ShoppingListItemCategoryMap> ShoppingListItemCategoryMaps { get; set; }
 
     }

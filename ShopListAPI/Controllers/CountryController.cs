@@ -18,13 +18,19 @@ namespace ShopListAPI.Controllers
             _mapper = mapper;
         }
 
+
+
+
+
         [Authorize(Roles = "Admin,User")]
         [HttpGet]
         public IActionResult GetAllCountries()
         {
             var result = _countryService.GetAll();
+           
             return result.Success == true ? Ok(result) : BadRequest(result);
         }
+
 
         [Authorize(Roles ="Admin,User")]
         [HttpGet("{id}")]

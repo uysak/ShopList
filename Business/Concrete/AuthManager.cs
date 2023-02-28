@@ -79,7 +79,7 @@ namespace Business.Concrete
             if (user.NextLoginAttemptTime > DateTime.Now)
             {
                 var remainingMinute = user.NextLoginAttemptTime - DateTime.Now;
-                return new ErrorDataResult(Messages.ExceededAttempt + " " + Messages.RetryAfterMinute + remainingMinute);
+                return new ErrorResult(Messages.ExceededAttempt + " " + Messages.RetryAfterMinute + remainingMinute);
             }
 
             if (remainingAttemptCount != 0)
@@ -95,7 +95,7 @@ namespace Business.Concrete
                 user.PasswordAttemptCount = 0;
                 _userService.Update(user);
 
-                return new ErrorDataResult(Messages.ExceededAttempt + " " + Messages.RetryAfterMinute + remainingMinute);
+                return new ErrorResult(Messages.ExceededAttempt + " " + Messages.RetryAfterMinute + remainingMinute);
             }
         }
 
@@ -103,7 +103,7 @@ namespace Business.Concrete
         {
             if (_userService.GetByMail(email).Data != null)
             {
-                return new ErrorDataResult(Messages.UserAlreadyExists);
+                return new ErrorResult(Messages.UserAlreadyExists);
             }
             return new SuccessResult();
         }

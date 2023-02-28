@@ -14,6 +14,8 @@ Register olduktan sonra size verilen Access Token ile authorize olabilirsiniz. T
 altına aldım. Tüm fonksiyonlar çalışıyor. Validasyon tarafında Fluent Validation kullandım. Bazı modellerin validasyon kurallarını yetiştiremedim. Bazı metotlarda
 null kontrolü gibi kontroller yok.
 
+Kategori bazlı liste filtreleme ve herhangi bir liste içerisindeki ürünleri kategoriye göre filtreleme metotları mevcut.
+
 Entegrasyon testini yetiştiremedim. 
 
 Elimden geldiğince sağlam bir yapı oluşturmaya çalıştım. Business katmanındaki bazı sınıflar Core katmanı oluşturulup oraya aktarılabilir. Gerekli altyapı mevcut fakat 

@@ -27,6 +27,7 @@ namespace ShopListAPI.Controllers
 
         }
 
+        [Authorize(Roles ="Admin")]
         [HttpGet("{id}")]
         public IActionResult GetUserDetailById([FromRoute]int id)
         {
@@ -34,6 +35,7 @@ namespace ShopListAPI.Controllers
             return result.Success == true ? Ok(result) : BadRequest(result);
         }
 
+        [Authorize(Roles ="Admin")]
         [HttpPut("{id}")]
         public IActionResult UpdateUser([FromRoute] int id,[FromBody]UserDetailDto userDetailDto)
         {
@@ -45,6 +47,7 @@ namespace ShopListAPI.Controllers
 
         }
 
+        [Authorize(Roles ="Admin")]
         [HttpDelete]
         public IActionResult DeleteUser([FromRoute] int id)
         {
@@ -52,6 +55,7 @@ namespace ShopListAPI.Controllers
             return result.Success == true ? Ok(result) : BadRequest(result);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPut]
         public IActionResult ChangeStatus([FromRoute] int userId, [FromRoute] int statusId)
         {

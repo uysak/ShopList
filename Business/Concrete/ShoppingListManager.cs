@@ -74,7 +74,7 @@ namespace Business.Concrete
         }
 
 
-        public IDataResult<List<ShoppingListItem>> GetItemByCategoryId(int categoryId, int listId)
+        public IDataResult<List<ShoppingListItem>> GetAllItemByCategoryId(int categoryId, int listId)
         {
             var productCategories = _productCategoryDal.GetAll(s => s.CategoryId == categoryId); 
 
@@ -94,7 +94,7 @@ namespace Business.Concrete
             var result = _shoppingListDal.Get(s => s.Id == id);
             if (result == null)
             {
-                return new ErrorResult();
+                return new ErrorDataResult();
             }
             return new SuccessResult();
         }

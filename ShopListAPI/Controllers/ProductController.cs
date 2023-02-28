@@ -21,7 +21,7 @@ namespace ShopListAPI.Controllers
             _mapper = mapper;
         }
 
-        [Authorize("Admin,User")]
+        [Authorize(Roles ="Admin,User")]
         [HttpGet]
         public IActionResult GetAll()
         {
@@ -31,11 +31,11 @@ namespace ShopListAPI.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public IActionResult CreateProduct([FromBody]ProductDto productDto)
+        public IActionResult CreateProduct([FromRoute]int categoryId,[FromBody]ProductDto productDto)
         {
             var product = _mapper.Map<Product>(productDto);
-
-            var result = _productService.Create(product);
+            
+            var result = _productService.Create(product,categoryId);
             return result.Success == true ? Ok(result) : BadRequest(result);
         }
 

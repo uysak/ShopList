@@ -25,5 +25,6 @@ namespace Business.Constants
         public static string EntityUpdated { get; set; } = "Entity updated.";
         public static string EntityDeleted { get; set; } = "Entity deleted.";
         public static string EntityCreated { get; set; } = "Entity created.";
+        public static string ListItemAlreadyExist { get; set; } = "The product is already listed. The order quantity has been increased.";
     }
 }

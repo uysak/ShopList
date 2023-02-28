@@ -15,9 +15,9 @@ namespace Business.Abstract
         public IResult Add(ShoppingList shoppingList);
         //public IDataResult<List<ShoppingList>> GetAllItem(int listId);
         public IDataResult<List<ShoppingList>> GetAll();
-        public IDataResult<List<ShoppingList>> GetAllListItemByCategoryId(int categoryId, int listId);
+        public IDataResult<List<ShoppingList>> GetAllListItemByCategoryId(int categoryId);
 
-        public IDataResult<List<ShoppingListItem>> GetItemByCategoryId(int categoryId, int listId);
+        public IDataResult<List<ShoppingListItem>> GetAllItemByCategoryId(int categoryId, int listId);
 
         public IResult Delete(int id);
 

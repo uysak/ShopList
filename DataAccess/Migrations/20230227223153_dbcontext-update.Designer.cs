@@ -3,6 +3,7 @@ using System;
 using DataAccess.Concrete.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(ShopListContext))]
-    partial class ShopListContextModelSnapshot : ModelSnapshot
+    [Migration("20230227223153_dbcontext-update")]
+    partial class dbcontextupdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -186,9 +189,6 @@ namespace DataAccess.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
                     b.Property<int>("ShoppingListId")
                         .HasColumnType("int");
 
@@ -196,8 +196,6 @@ namespace DataAccess.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CategoryId");
 
                     b.HasIndex("ShoppingListId");
 
@@ -365,12 +363,6 @@ namespace DataAccess.Migrations
 
             modelBuilder.Entity("Entities.Concrete.ShoppingListItemCategoryMap", b =>
                 {
-                    b.HasOne("Entities.Concrete.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Entities.Concrete.ShoppingList", "ShoppingList")
                         .WithMany()
                         .HasForeignKey("ShoppingListId")
@@ -382,8 +374,6 @@ namespace DataAccess.Migrations
                         .HasForeignKey("ShoppingListItemId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Category");
 
                     b.Navigation("ShoppingList");
 

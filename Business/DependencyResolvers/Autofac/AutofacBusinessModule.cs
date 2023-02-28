@@ -2,6 +2,8 @@
 using Autofac.Extras.DynamicProxy;
 using Business.Abstract;
 using Business.Concrete;
+using Business.Services.Abstract;
+using Business.Services.Concrete;
 using Business.Utilities.Interceptors;
 using Business.Utilities.Security.JWT;
 using Castle.DynamicProxy;
@@ -41,7 +43,9 @@ namespace Business.DependencyResolvers.Autofac
             builder.RegisterType<ShoppingListItemManager>().As<IShoppingListItemService>().SingleInstance();
             builder.RegisterType<EfShoppingListItemDal>().As<IShoppingListItemDal>().SingleInstance();
 
+            builder.RegisterType<EfShoppingListItemCategoryMapDal>().As<IShoppingListItemCategoryMapDal>().SingleInstance();
 
+            builder.RegisterType<RedisCacheService>().As<ICacheService>().SingleInstance();
             
 
 

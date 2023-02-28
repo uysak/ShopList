@@ -11,6 +11,8 @@ using Business.Utilities.Security.JWT;
 using Business.Utilities.Security.Encryption;
 using FluentValidation.AspNetCore;
 using Business.Abstract;
+using StackExchange.Redis;
+using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,11 +21,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
 builder.Host.ConfigureContainer<ContainerBuilder>(builder => builder.RegisterModule(new AutofacBusinessModule()));
 
-//builder.Host.ConfigureContainer<ContainerBuilder>(builder =>
-//{
-//    builder.RegisterType<IShoppingListItemService>().InstancePerLifetimeScope()
-//        .PropertiesAutowired(PropertyWiringOptions.AllowCircularDependencies);
-//});
+//Redis Configuration
+
+var multiplexer = ConnectionMultiplexer.Connect(builder.Configuration.GetConnectionString("Redis"));
+builder.Services.AddSingleton<IConnectionMultiplexer>(multiplexer);
 
 
 //Mapper Configuration

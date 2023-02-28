@@ -2,6 +2,7 @@
 using Business.Aspects.Autofac.Validation;
 using Business.BusinessAspects.Autofac;
 using Business.Constants;
+using Business.Services.Abstract;
 using Business.Utilities.Results;
 using Business.ValidationRule.FluentValidation;
 using DataAccess.Abstract;
@@ -18,16 +19,26 @@ namespace Business.Concrete
     public class ProductManager : IProductService
     {
         private readonly IProductDal _productDal;
-        public ProductManager(IProductDal productDal)
+        private readonly IProductCategoryDal _productCategoryDal;
+        private readonly ICacheService _cacheService;
+        public ProductManager(IProductDal productDal,IProductCategoryDal productCategoryDal, ICacheService cacheService)
         {
+            _cacheService = cacheService;
             _productDal = productDal;
+            _productCategoryDal = productCategoryDal;
         }
 
-        [SecuredOperation("Admin")]
         [ValidationAspect(typeof(ProductValidator))]
-        public IResult Create(Product product)
+        public IResult Create(Product product, int categoryId)
         {
+            
             _productDal.Add(product);
+            _productCategoryDal.Add( // TODO: Vaktin kalırsa business katmanını da oluştur
+                new ProductCategory
+                {
+                    ProductId = product.Id,
+                    CategoryId = categoryId
+                });
             return new SuccessResult(Messages.EntityCreated);
         }
 
@@ -47,7 +58,7 @@ namespace Business.Concrete
 
         public IDataResult<List<Product>> GetAll()
         {
-            var result = _productDal.GetAll();
+            var result = _cacheService.GetOrAdd<List<Product>>("AllProducts", () => { return _productDal.GetAll(); });
             return new SuccessDataResult<List<Product>>(result);
         }
         [SecuredOperation("Admin")]
@@ -59,6 +70,7 @@ namespace Business.Concrete
             product.Description = product.Description == default ? updatedEntity.Description : product.Description;
 
             _productDal.Update(product);
+            _cacheService.Clear("AllProducts");
             return new SuccessResult(Messages.EntityUpdated);
         }
     }

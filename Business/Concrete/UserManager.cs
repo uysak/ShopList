@@ -85,7 +85,7 @@ namespace Business.Concrete
 
             if (!updatedUser.Success || !status.Success)
             {
-                return new ErrorResult();
+                return new ErrorDataResult();
             }
 
             updatedUser.Data.StatusId = statusId;

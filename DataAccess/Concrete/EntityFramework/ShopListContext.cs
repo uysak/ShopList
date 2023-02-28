@@ -37,5 +37,7 @@ namespace DataAccess.Concrete.EntityFramework
         public DbSet<Country> Countries { get; set; }
         public DbSet<Status> Statuses { get; set; }
 
+        public DbSet<ShoppingListItemCategoryMap> ShoppingListItemCategoryMaps { get; set; }
+
     }
 }

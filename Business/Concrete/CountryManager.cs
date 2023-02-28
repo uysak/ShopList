@@ -2,6 +2,7 @@
 using Business.Aspects.Autofac.Validation;
 using Business.BusinessAspects.Autofac;
 using Business.Constants;
+using Business.Services.Abstract;
 using Business.Utilities.Results;
 using Business.ValidationRule.FluentValidation;
 using DataAccess.Abstract;
@@ -18,8 +19,10 @@ namespace Business.Concrete
     public class CountryManager : ICountryService
     {
         private readonly ICountryDal _countryDal;
-        public CountryManager(ICountryDal countryDal)
+        private readonly ICacheService _cacheService;
+        public CountryManager(ICountryDal countryDal,ICacheService cacheService)
         {
+            _cacheService = cacheService;
             _countryDal = countryDal;
         }
 
@@ -27,12 +30,14 @@ namespace Business.Concrete
         public IResult Create(Country country)
         {
             _countryDal.Add(country);
+            _cacheService.Clear("AllCountries");
             return new SuccessResult(Messages.EntityCreated);
         }
 
         public IResult Delete(int id)
         {
             _countryDal.Delete(_countryDal.Get(s => s.Id == id));
+            _cacheService.Clear("AllCountries");
             return new SuccessResult(Messages.EntityDeleted);
         }
 
@@ -45,7 +50,7 @@ namespace Business.Concrete
         [SecuredOperation("Admin")]
         public IDataResult<List<Country>> GetAll()
         {
-            var result = _countryDal.GetAll();
+            var result = _cacheService.GetOrAdd("AllCountries", () => { return _countryDal.GetAll(); });
             return new SuccessDataResult<List<Country>>(result);
         }
 
@@ -56,8 +61,7 @@ namespace Business.Concrete
             country.CountryName = country.CountryName == default ? updatedEntity.CountryName : country.CountryName;
             country.FlagImgLink = country.FlagImgLink == default ? updatedEntity.FlagImgLink : country.FlagImgLink;
 
-            new ValidationAspect(typeof(CountryValidator));
-
+            _cacheService.Clear("AllCountries");
             _countryDal.Update(country);
             return new SuccessResult(Messages.EntityUpdated);
         }

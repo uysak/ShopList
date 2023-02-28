@@ -41,7 +41,7 @@ namespace ShopListAPI.Controllers
             return result.Success == true ? Ok(result) : BadRequest(result);
         }
 
-        [Authorize("Admin,User")]
+        [Authorize(Roles ="Admin,User")]
         [HttpGet("{id}")]
         public IActionResult GetCategory(int id)
         {

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Entities.DTOs;
 using AutoMapper;
 using Business.Utilities.Results;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ShopListAPI.Controllers
 {
@@ -22,14 +23,24 @@ namespace ShopListAPI.Controllers
             _mapper = mapper;
         }
 
-
-        [HttpGet("test")]
-        public IActionResult test(int categoryid, int listId)
+        [Authorize(Roles ="Admin")]
+        [HttpGet("FilterShoppingListByCategory")]
+        public IActionResult FilterListByCategoryId(int categoryid)  // Kategori bazlı filtreleme. Verilen categoryId'de ürün içeren alışveriş listelerini getiriyor.
         {
-            var result = _shoppingListService.GetAllListItemByCategoryId(categoryid,listId);
+            var result = _shoppingListService.GetAllListItemByCategoryId(categoryid);
             return result.Success == true ? Ok(result) : BadRequest(result);
         }
 
+        [Authorize(Roles ="Admin,User")]
+        [HttpGet("FilterShoppingListItemByCategoryId")]
+        public IActionResult FilterListItemByCategoryId(int categoryId,int listId)
+        {
+            var result = _shoppingListService.GetAllItemByCategoryId(categoryId,listId);
+            return result.Success == true ? Ok(result) : BadRequest(result);
+
+        }
+
+        [Authorize("Admin")]
         [HttpPost("createlist")]
         public IActionResult CreateNewList(ShoppingList shoppingList)
         {
@@ -37,11 +48,11 @@ namespace ShopListAPI.Controllers
             return result.Success == true ? Ok(result) : BadRequest(result);
 
         }
-
-        [HttpPost("additem")]
-        public IActionResult AddItem(ShoppingListItemForAddDto shoppingListItemDto)
+        [Authorize("Admin")]
+        [HttpPost("Admin,User")]
+        public IActionResult AddItem(ShoppingListItemForAddDto shoppingListItemForAddDto)
         {
-            var result = _shoppingListItemService.Add(shoppingListItemDto);
+            var result = _shoppingListItemService.Add(shoppingListItemForAddDto);
             return result.Success == true ? Ok(result) : BadRequest(result);
         }
 

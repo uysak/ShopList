@@ -3,6 +3,7 @@ using System;
 using DataAccess.Concrete.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(ShopListContext))]
-    partial class ShopListContextModelSnapshot : ModelSnapshot
+    [Migration("20230227222736_shoppinglist_item_category")]
+    partial class shoppinglist_item_category
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -180,32 +183,6 @@ namespace DataAccess.Migrations
                     b.ToTable("ShoppingListItems");
                 });
 
-            modelBuilder.Entity("Entities.Concrete.ShoppingListItemCategoryMap", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ShoppingListId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ShoppingListItemId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CategoryId");
-
-                    b.HasIndex("ShoppingListId");
-
-                    b.HasIndex("ShoppingListItemId");
-
-                    b.ToTable("ShoppingListItemCategoryMaps");
-                });
-
             modelBuilder.Entity("Entities.Concrete.Status", b =>
                 {
                     b.Property<int>("Id")
@@ -361,33 +338,6 @@ namespace DataAccess.Migrations
                     b.Navigation("Product");
 
                     b.Navigation("ShoppingList");
-                });
-
-            modelBuilder.Entity("Entities.Concrete.ShoppingListItemCategoryMap", b =>
-                {
-                    b.HasOne("Entities.Concrete.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Entities.Concrete.ShoppingList", "ShoppingList")
-                        .WithMany()
-                        .HasForeignKey("ShoppingListId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Entities.Concrete.ShoppingListItem", "ShoppingListItem")
-                        .WithMany()
-                        .HasForeignKey("ShoppingListItemId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Category");
-
-                    b.Navigation("ShoppingList");
-
-                    b.Navigation("ShoppingListItem");
                 });
 
             modelBuilder.Entity("Entities.Concrete.User", b =>

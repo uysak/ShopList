@@ -16,6 +16,8 @@ null kontrolü gibi kontroller yok.
 
 Kategori bazlı liste filtreleme ve herhangi bir liste içerisindeki ürünleri kategoriye göre filtreleme metotları mevcut.
 
+Kullanıcı durumu, liste durumu gibi durumları kontrol etmek için bir sistem kuruyordum ama yarım kaldı. Status için DataAccess katmanında sınıflar mevcut. UserController'da, ChangeStatus için bir endpoint var. Liste için ekleyecektim fakat yetişmedi.
+
 Entegrasyon testini yetiştiremedim. 
 
 Elimden geldiğince sağlam bir yapı oluşturmaya çalıştım. Business katmanındaki bazı sınıflar Core katmanı oluşturulup oraya aktarılabilir. Gerekli altyapı mevcut fakat 
